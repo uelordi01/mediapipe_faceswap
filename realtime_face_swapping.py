@@ -1,6 +1,5 @@
 import cv2
 import dlib_faceswap
-MAX_FACESWAP_IMAGES = 6
 
 
 def init_windows():
@@ -10,12 +9,16 @@ def init_windows():
     cv2.resizeWindow('clone', width, height)
     cv2.namedWindow('result', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('result', width, height)
+
+
 indexes_triangles = []
+
 flag_draw_landmarks = False
 flag_draw_mask = False
 flag_change_face = False
 face_list_index = 0
-change_face_list = [] # write here your reference photos.
+change_face_list = []  # write here your reference photos.
+MAX_FACESWAP_IMAGES = len(change_face_list) - 1
 if len(change_face_list) == 0:
     print("WARNING: (EMPTY IMAGE ARRAY) PLEASE PUT IN THE variable change_face_list the images that you would like to "
           "swap")
@@ -27,7 +30,7 @@ camera_opened = False
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 if cap is None or not cap.isOpened():
-       print('Warning: unable to open camera: ')
+    print('Warning: unable to open camera: ')
 else:
     camera_opened = True
 
@@ -44,7 +47,6 @@ if camera_opened:
                 base_img = dlib_handler.updateBaseImg(change_face_list[face_list_index])
                 flag_change_face = False
             input_image = base_img.copy()
-
 
             if flag_draw_mask:
                 input_image = dlib_handler.draw_base_triangles()
@@ -67,7 +69,7 @@ if camera_opened:
                 flag_change_face = not flag_change_face
                 face_list_index = face_list_index + 1
                 if face_list_index > MAX_FACESWAP_IMAGES:
-                    face_list_index=0
+                    face_list_index = 0
             if key == 83 or key == 115:
                 break
                 # cv2.imwrite("img2.jpg", img_target)
@@ -76,4 +78,3 @@ if camera_opened:
 
     cap.release()
     cv2.destroyAllWindows(input_image)
-
