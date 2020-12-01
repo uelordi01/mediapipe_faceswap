@@ -12,6 +12,9 @@ class DLIBFaceswaper:
 
   def updateBaseImg(self, img_path):
       self.base_img = cv2.imread(img_path)
+      if self.base_img is None:
+          print("BASE IMAGE NOT FOUND, please check if the specified image is in this folder")
+          assert(False)
       self.base_img_gray = cv2.cvtColor(self.base_img, cv2.COLOR_BGR2GRAY)
       self.mask = np.zeros_like(self.base_img_gray)
       self.base_face_handler = self.extract_landmarks(self.base_img, self.base_img_gray)
