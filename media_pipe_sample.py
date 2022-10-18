@@ -5,7 +5,7 @@ import numpy as np
 
 mp_drawing = mp.solutions.drawing_utils
 mp_face_mesh = mp.solutions.face_mesh
-change_face_list = ["jim_carrey.jpg", "bradley_cooper.jpg", "trump.jpg"]
+change_face_list = []
 MAX_FACESWAP_IMAGES = len(change_face_list) - 1
 
 
@@ -101,7 +101,7 @@ def main():
                 mp_drawing.draw_landmarks(
                     image=out_image,
                     landmark_list=face_landmarks,
-                    connections=mp_face_mesh.FACE_CONNECTIONS,
+                    connections=mp_face_mesh.FACEMESH_CONTOURS,
                     landmark_drawing_spec=drawing_spec,
                     connection_drawing_spec=drawing_spec)
 
@@ -150,7 +150,7 @@ def main():
                             points = np.float32(points)
                             points2 = np.float32(points2)
                             M = cv2.getAffineTransform(points, points2)
-                            warped_triangle = cv2.warpAffine(cropped_triangle, M, (w, h))
+                            warped_triangle = cv2.warpAffine(cropped_triangle, M, (w, h),borderMode=cv2.BORDER_REPLICATE)
                             warped_triangle = cv2.bitwise_and(warped_triangle, warped_triangle, mask=cropped_tr2_mask)
 
                             # Reconstructing destination face

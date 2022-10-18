@@ -76,7 +76,7 @@ class DLIBFaceswaper:
               points = np.float32(points)
               points2 = np.float32(points2)
               M = cv2.getAffineTransform(points, points2)
-              warped_triangle = cv2.warpAffine(cropped_triangle, M, (w, h))
+              warped_triangle = cv2.warpAffine(cropped_triangle, M, (w, h),borderMode=cv2.BORDER_REPLICATE)
               warped_triangle = cv2.bitwise_and(warped_triangle, warped_triangle, mask=cropped_tr2_mask)
 
               # Reconstructing destination face
